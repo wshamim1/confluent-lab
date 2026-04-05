@@ -8,6 +8,8 @@ This folder contains setup assets for local and cluster-oriented Confluent Kafka
 - `podman/` - Podman Compose definitions and helper scripts
 - `kubernetes/` - Kubernetes and OpenShift bootstrap assets
 
+Docker also includes a secure-local override path for the local security example.
+
 ## Intended Use
 
 - use `docker/` when the local environment is Docker-based

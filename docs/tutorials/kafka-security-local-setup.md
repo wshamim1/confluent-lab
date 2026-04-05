@@ -19,6 +19,7 @@ Main files:
 - `generate-certs.sh`
 - `schema-registry.properties`
 - `connect-distributed.properties`
+- `ksqldb-server.properties`
 - `acl-examples.sh`
 
 ## What This Example Demonstrates
@@ -94,6 +95,7 @@ Open:
 
 - `examples/security/local-sasl-ssl/schema-registry.properties`
 - `examples/security/local-sasl-ssl/connect-distributed.properties`
+- `examples/security/local-sasl-ssl/ksqldb-server.properties`
 
 These show how adjacent Confluent components can connect to Kafka with:
 
@@ -103,7 +105,33 @@ These show how adjacent Confluent components can connect to Kafka with:
 
 This is the important extension of Kafka security: brokers are only part of the overall platform.
 
-## Step 6: Create Topics Using the Admin Client
+## Step 6: Review the Docker Secure-Local Profile
+
+Open:
+
+- `scripts/install/docker/docker-compose.secure-local.yml`
+- `scripts/install/docker/up-secure.sh`
+- `scripts/install/docker/down-secure.sh`
+
+This profile:
+
+- mounts the generated certs into containers
+- applies secure broker overrides on port `9093`
+- applies secure Kafka client settings to Schema Registry, Connect, and ksqlDB
+
+Start it with:
+
+```bash
+./scripts/install/docker/up-secure.sh
+```
+
+Stop it with:
+
+```bash
+./scripts/install/docker/down-secure.sh
+```
+
+## Step 7: Create Topics Using the Admin Client
 
 Example:
 
@@ -111,7 +139,7 @@ Example:
 kafka-topics --bootstrap-server localhost:9093 --command-config examples/security/local-sasl-ssl/admin.properties --create --topic orders.created --partitions 3 --replication-factor 1
 ```
 
-## Step 7: Apply ACLs
+## Step 8: Apply ACLs
 
 Review `examples/security/local-sasl-ssl/acl-examples.sh`.
 
@@ -125,7 +153,7 @@ Important point:
 
 - consumers often need both topic and group permissions
 
-## Step 8: Test a Producer
+## Step 9: Test a Producer
 
 Example:
 
@@ -139,7 +167,7 @@ Send a record:
 1001:{"order_id":"1001","status":"CREATED"}
 ```
 
-## Step 9: Test a Consumer
+## Step 10: Test a Consumer
 
 Example:
 
@@ -162,6 +190,7 @@ kafka-console-consumer --bootstrap-server localhost:9093 --consumer.config examp
 - SASL mechanism differs on the two sides
 - topic ACL exists but consumer group ACL is missing
 - Schema Registry or Connect use different Kafka client security settings than your working CLI clients
+- the secure-local Docker override was started without generated certificate files
 
 ## Practical Guidance
 

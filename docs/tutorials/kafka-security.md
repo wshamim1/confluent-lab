@@ -315,6 +315,8 @@ That local example also includes:
 - a certificate generation helper
 - secured Schema Registry Kafka client properties
 - secured Kafka Connect worker properties
+- secured ksqlDB server properties
+- a Docker secure-local profile that mounts certs and security config automatically
 
 ## Next Step
 

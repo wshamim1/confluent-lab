@@ -15,6 +15,7 @@ This example shows the shape of a secure local Kafka setup with:
 - `generate-certs.sh` - creates local self-signed certificate and truststore assets for learning
 - `schema-registry.properties` - sample Schema Registry configuration that connects to Kafka with `SASL_SSL`
 - `connect-distributed.properties` - sample Kafka Connect worker configuration that connects to Kafka with `SASL_SSL`
+- `ksqldb-server.properties` - sample ksqlDB server configuration that connects to Kafka with `SASL_SSL`
 - `acl-examples.sh` - example ACL commands
 
 ## Scope
@@ -38,3 +39,18 @@ For production:
 - exported broker certificate
 
 These are intentionally local-only artifacts and should not be treated as production certificate management.
+
+## Docker Secure-Local Profile
+
+This repository also includes a Docker secure-local startup path:
+
+- `scripts/install/docker/docker-compose.secure-local.yml`
+- `scripts/install/docker/up-secure.sh`
+- `scripts/install/docker/down-secure.sh`
+
+This path mounts the generated certs automatically and applies secure overrides for:
+
+- Kafka broker
+- Schema Registry
+- Kafka Connect
+- ksqlDB server
