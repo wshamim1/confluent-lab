@@ -18,6 +18,7 @@ This repository is a compact learning pack for Confluent Kafka. It includes:
 ## Repository Layout
 
 - `docs/architecture.md` - Confluent Kafka architecture and component roles
+- `docs/use-cases/README.md` - real-world architecture scenarios and design patterns
 - `docs/install/README.md` - installation index and path selection guide
 - `docs/install/options.md` - cloud, local, and self-managed installation paths
 - `docs/install/podman.md` - running the local lab with Podman
@@ -29,6 +30,10 @@ This repository is a compact learning pack for Confluent Kafka. It includes:
 - `docs/tutorials/schema-registry.md` - Schema Registry and event schema workflow
 - `docs/tutorials/ksqldb.md` - ksqlDB streams, tables, and aggregation workflow
 - `docs/tutorials/connect-source-to-sink.md` - source and sink data movement tutorial
+- `scripts/install/` - runtime-specific Docker, Podman, and Kubernetes/OpenShift setup assets
+- `examples/connectors/` - source and destination connector JSON templates
+- `examples/schema-registry/` - Schema Registry helper scripts
+- `examples/ksql/` - generic ksqlDB scripts and demo SQL
 
 ## Suggested Learning Path
 
@@ -40,7 +45,8 @@ This repository is a compact learning pack for Confluent Kafka. It includes:
 6. Follow `docs/tutorials/schema-registry.md` for governed events.
 7. Follow `docs/tutorials/ksqldb.md` for streaming SQL workflows.
 8. Follow `docs/tutorials/connect-source-to-sink.md` for integration patterns.
-9. Use the install guides to decide how to run local, cloud, or OpenShift-based environments.
+9. Review `docs/use-cases/README.md` for production-oriented reference scenarios.
+10. Use the install guides to decide how to run local, cloud, or OpenShift-based environments.
 
 ## Quick Start
 

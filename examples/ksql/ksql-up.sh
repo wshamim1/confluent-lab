@@ -19,11 +19,11 @@ fi
 
 case "$runtime" in
 	podman)
-		compose_file="$REPO_ROOT/Install-scripts/podman/compose.yml"
+		compose_file="$REPO_ROOT/scripts/install/podman/compose.yml"
 		compose_cmd=(podman compose -f "$compose_file")
 		;;
 	docker)
-		compose_file="$REPO_ROOT/Install-scripts/docker/docker-compose.yml"
+		compose_file="$REPO_ROOT/scripts/install/docker/docker-compose.yml"
 		compose_cmd=(docker compose -f "$compose_file")
 		;;
 	*)
