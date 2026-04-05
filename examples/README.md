@@ -9,6 +9,8 @@ This folder contains runnable or copy-ready assets that support the tutorials an
 - `security/` - local security configuration examples for Kafka listeners, clients, and ACLs
 - `schema-registry/` - Schema Registry helper scripts for listing subjects and registering sample schemas
 
+The security examples also include local certificate-generation helpers and secured component config templates for Schema Registry and Kafka Connect.
+
 ## How To Use This Folder
 
 - use `connectors/` when testing Kafka Connect APIs or building integration proof-of-concepts

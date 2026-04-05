@@ -16,6 +16,9 @@ Main files:
 - `server_jaas.conf`
 - `client.properties`
 - `admin.properties`
+- `generate-certs.sh`
+- `schema-registry.properties`
+- `connect-distributed.properties`
 - `acl-examples.sh`
 
 ## What This Example Demonstrates
@@ -32,8 +35,8 @@ This is a local learning example.
 It is intentionally simpler than production setups:
 
 - SASL/PLAIN is used because it is easier to understand locally
-- certificate paths are placeholders you must adapt
-- related services such as Schema Registry, Connect, and ksqlDB are not fully secured in this example
+- certificate generation is local and self-signed for learning
+- related services are shown with sample secure Kafka client configs, not full production hardening
 
 For production, use a stronger approved model such as SCRAM or mTLS where appropriate.
 
@@ -49,7 +52,19 @@ Notice these key areas:
 - authorizer is enabled
 - `allow.everyone.if.no.acl.found=false` prevents implicit open access
 
-## Step 2: Review the Broker JAAS File
+## Step 2: Generate Local Certificate Assets
+
+Run:
+
+```bash
+./examples/security/local-sasl-ssl/generate-certs.sh
+```
+
+This generates local keystore and truststore files under `examples/security/local-sasl-ssl/certs/`.
+
+You still need to place or mount them where your broker and clients expect them.
+
+## Step 3: Review the Broker JAAS File
 
 Open `examples/security/local-sasl-ssl/server_jaas.conf`.
 
@@ -61,7 +76,7 @@ This file shows example local users:
 
 For local learning, this makes the principal model easy to see.
 
-## Step 3: Review Client Configuration
+## Step 4: Review Client Configuration
 
 Open `examples/security/local-sasl-ssl/client.properties`.
 
@@ -73,7 +88,22 @@ This file shows the minimum client-side ideas:
 
 Use the admin client separately via `admin.properties` so operational permissions do not get mixed into application clients.
 
-## Step 4: Create Topics Using the Admin Client
+## Step 5: Review Secured Schema Registry and Connect Examples
+
+Open:
+
+- `examples/security/local-sasl-ssl/schema-registry.properties`
+- `examples/security/local-sasl-ssl/connect-distributed.properties`
+
+These show how adjacent Confluent components can connect to Kafka with:
+
+- `security.protocol=SASL_SSL`
+- matching SASL mechanism
+- truststore configuration
+
+This is the important extension of Kafka security: brokers are only part of the overall platform.
+
+## Step 6: Create Topics Using the Admin Client
 
 Example:
 
@@ -81,7 +111,7 @@ Example:
 kafka-topics --bootstrap-server localhost:9093 --command-config examples/security/local-sasl-ssl/admin.properties --create --topic orders.created --partitions 3 --replication-factor 1
 ```
 
-## Step 5: Apply ACLs
+## Step 7: Apply ACLs
 
 Review `examples/security/local-sasl-ssl/acl-examples.sh`.
 
@@ -95,7 +125,7 @@ Important point:
 
 - consumers often need both topic and group permissions
 
-## Step 6: Test a Producer
+## Step 8: Test a Producer
 
 Example:
 
@@ -109,7 +139,7 @@ Send a record:
 1001:{"order_id":"1001","status":"CREATED"}
 ```
 
-## Step 7: Test a Consumer
+## Step 9: Test a Consumer
 
 Example:
 
@@ -131,12 +161,14 @@ kafka-console-consumer --bootstrap-server localhost:9093 --consumer.config examp
 - security protocol is mismatched between client and broker
 - SASL mechanism differs on the two sides
 - topic ACL exists but consumer group ACL is missing
+- Schema Registry or Connect use different Kafka client security settings than your working CLI clients
 
 ## Practical Guidance
 
 - separate admin and application credentials
 - keep the listener name, security protocol, and trust configuration documented together
 - test both success and denial cases
+- keep related platform components on the same documented security model
 - once the mental model is clear locally, move to your production-approved security pattern
 
 ## Next Step

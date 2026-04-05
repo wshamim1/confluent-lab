@@ -310,6 +310,12 @@ This repository includes a local hands-on example in:
 
 Use `kafka-security-local-setup.md` if you want to walk through sample broker properties, client properties, and ACL examples.
 
+That local example also includes:
+
+- a certificate generation helper
+- secured Schema Registry Kafka client properties
+- secured Kafka Connect worker properties
+
 ## Next Step
 
 Proceed to `schema-registry.md` when you want to extend these security patterns to governed schemas and adjacent platform components.
