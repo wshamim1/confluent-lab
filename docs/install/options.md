@@ -55,8 +55,14 @@ Tradeoffs:
 
 Available local container paths in this repo:
 
-- Docker-based local evaluation
-- Podman-based local evaluation using the notes in `podman.md`
+- Docker-based local evaluation in `scripts/install/docker/`
+- Podman-based local evaluation in `scripts/install/podman/`
+
+Related example paths:
+
+- `examples/ksql/` for ksqlDB helper scripts and demo SQL
+- `examples/schema-registry/` for Schema Registry helper scripts
+- `examples/connectors/` for connector JSON templates
 
 Useful endpoints in the sample stack:
 
@@ -116,6 +122,8 @@ Tradeoffs:
 
 For OpenShift-specific considerations, continue with `openshift.md`.
 
+For cluster bootstrap assets, review `scripts/install/kubernetes/`.
+
 ## Decision Guide
 
 Choose Confluent Cloud when:
@@ -150,7 +158,7 @@ Choose Kubernetes or OpenShift when:
 ### Individual Learning
 
 - use Docker Compose or Podman Compose
-- run the Python examples
+- use the assets in `scripts/install/` and `examples/`
 - experiment with connector REST APIs
 
 ### Team Prototype

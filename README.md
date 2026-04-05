@@ -8,6 +8,28 @@ This repository is a compact learning pack for Confluent Kafka. It includes:
 - connector guidance organized by source and destination patterns
 - practical tutorials for local evaluation and platform planning
 
+## Repository Tree
+
+```text
+confluent-lab/
+├── docs/
+│   ├── architecture.md
+│   ├── connectors/
+│   ├── install/
+│   ├── tutorials/
+│   └── use-cases/
+├── examples/
+│   ├── connectors/
+│   ├── ksql/
+│   └── schema-registry/
+├── scripts/
+│   └── install/
+│       ├── docker/
+│       ├── kubernetes/
+│       └── podman/
+└── README.md
+```
+
 ## Who This Is For
 
 - developers new to Apache Kafka and Confluent

@@ -46,6 +46,8 @@ In most cases, the cleanest path is:
 
 ### 1. Create a Project or Namespace
 
+There is a bootstrap example in `scripts/install/kubernetes/namespace.yaml`.
+
 ```bash
 oc new-project confluent
 ```
@@ -61,6 +63,12 @@ Choose a storage class suitable for stateful workloads before creating brokers.
 ### 3. Install the Kubernetes Operator or Control Plane Components
 
 Use your organization's approved Confluent deployment method for Kubernetes. The exact steps vary by version and support policy, so verify the current supported installation path against your platform standards before rollout.
+
+Repository helpers in `scripts/install/kubernetes/`:
+
+- `check-prereqs.sh`
+- `namespace.yaml`
+- `openshift-bootstrap.sh`
 
 ### 4. Create Stateful Platform Resources
 

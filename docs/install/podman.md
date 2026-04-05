@@ -27,9 +27,12 @@ podman compose version
 
 ## Start the Stack
 
-From a directory containing your Compose definition:
+Podman assets live in `scripts/install/podman/`.
+
+From that directory:
 
 ```bash
+cd scripts/install/podman
 podman compose up -d
 ```
 
@@ -49,6 +52,12 @@ The compose file exposes the same host ports used in the Docker workflow:
 - `9021` for Control Center
 
 If those ports are already occupied, change the host-side mappings in your Compose definition.
+
+Related example assets:
+
+- `examples/ksql/` for generic ksqlDB scripts that can run with Podman
+- `examples/schema-registry/` for Schema Registry helper scripts
+- `examples/connectors/` for connector templates
 
 ## Rootless Caveats
 
@@ -93,6 +102,8 @@ Once the stack is up, validate it with client or console tooling:
 2. Produce a few records.
 3. Consume them back.
 4. Open `http://localhost:9021` if Control Center is enabled.
+
+You can also use the ksqlDB helpers from `examples/ksql/` after the stack is running.
 
 ## Caveat About Connector Plugins
 
