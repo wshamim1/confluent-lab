@@ -49,6 +49,10 @@ confluent-lab/
 - `docs/connectors/source.md` - source connector types and design patterns
 - `docs/connectors/destinations.md` - sink connector types and destination patterns
 - `docs/tutorials/getting-started.md` - first local environment and first messages
+- `docs/tutorials/core-streaming.md` - brokers, topics, partitions, producers, consumers, and replay
+- `docs/tutorials/delivery-semantics.md` - at-most-once, at-least-once, exactly-once, and offset commit patterns
+- `docs/tutorials/topic-design-and-partitions.md` - naming, keys, partition counts, compaction, and retention strategy
+- `docs/tutorials/consumer-groups-and-lag.md` - group coordination, rebalancing, lag interpretation, and scaling limits
 - `docs/tutorials/schema-registry.md` - Schema Registry and event schema workflow
 - `docs/tutorials/ksqldb.md` - ksqlDB streams, tables, and aggregation workflow
 - `docs/tutorials/connect-source-to-sink.md` - source and sink data movement tutorial
@@ -61,14 +65,18 @@ confluent-lab/
 
 1. Read `docs/install/README.md` to choose an environment.
 2. Follow `docs/tutorials/getting-started.md`.
-3. Review `docs/connectors/README.md` for integration concepts.
-4. Use `docs/connectors/source.md` and `docs/connectors/destinations.md` to map systems to connectors.
-5. Read `docs/architecture.md` to understand platform components.
-6. Follow `docs/tutorials/schema-registry.md` for governed events.
-7. Follow `docs/tutorials/ksqldb.md` for streaming SQL workflows.
-8. Follow `docs/tutorials/connect-source-to-sink.md` for integration patterns.
-9. Review `docs/use-cases/README.md` for production-oriented reference scenarios.
-10. Use the install guides to decide how to run local, cloud, or OpenShift-based environments.
+3. Follow `docs/tutorials/core-streaming.md` to understand Kafka fundamentals.
+4. Follow `docs/tutorials/delivery-semantics.md` to understand delivery guarantees and offset handling.
+5. Follow `docs/tutorials/topic-design-and-partitions.md` to design topics, keys, and partition counts intentionally.
+6. Follow `docs/tutorials/consumer-groups-and-lag.md` to understand scaling limits, rebalancing, and lag behavior.
+7. Review `docs/connectors/README.md` for integration concepts.
+8. Use `docs/connectors/source.md` and `docs/connectors/destinations.md` to map systems to connectors.
+9. Read `docs/architecture.md` to understand platform components.
+10. Follow `docs/tutorials/schema-registry.md` for governed events.
+11. Follow `docs/tutorials/ksqldb.md` for streaming SQL workflows.
+12. Follow `docs/tutorials/connect-source-to-sink.md` for integration patterns.
+13. Review `docs/use-cases/README.md` for production-oriented reference scenarios.
+14. Use the install guides to decide how to run local, cloud, or OpenShift-based environments.
 
 ## Quick Start
 
