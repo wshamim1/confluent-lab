@@ -8,12 +8,10 @@ Understand how Schema Registry helps producers and consumers evolve event contra
 
 This repository includes helper scripts for local Schema Registry workflows:
 
-- `Install-scripts/docker/schema-registry-list-subjects.sh`
-- `Install-scripts/docker/schema-registry-register-order-schema.sh`
-- `Install-scripts/podman/schema-registry-list-subjects.sh`
-- `Install-scripts/podman/schema-registry-register-order-schema.sh`
+- `schema-registry-examples/schema-registry-list-subjects.sh`
+- `schema-registry-examples/schema-registry-register-order-schema.sh`
 
-Use the Docker or Podman version that matches your local runtime.
+These scripts are runtime-agnostic because they call the local Schema Registry HTTP API directly.
 
 ## Why Use Schema Registry
 
@@ -77,13 +75,7 @@ The new field includes a default, so older records remain readable.
 List subjects with the helper script:
 
 ```bash
-./Install-scripts/docker/schema-registry-list-subjects.sh
-```
-
-Or with Podman:
-
-```bash
-./Install-scripts/podman/schema-registry-list-subjects.sh
+./schema-registry-examples/schema-registry-list-subjects.sh
 ```
 
 Get subjects:
@@ -109,7 +101,7 @@ curl -X POST http://localhost:8081/compatibility/subjects/orders.created-value/v
 Register the sample schema with the helper script:
 
 ```bash
-./Install-scripts/docker/schema-registry-register-order-schema.sh
+./schema-registry-examples/schema-registry-register-order-schema.sh
 ```
 
 ## Practical Guidance

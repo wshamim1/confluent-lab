@@ -12,32 +12,19 @@ Use ksqlDB to create a stream over Kafka events and derive a running aggregation
 
 ## Local Scripts
 
-Docker helpers:
+Generic helpers:
 
-- `Install-scripts/docker/ksql-up.sh`
-- `Install-scripts/docker/ksql-cli.sh`
-- `Install-scripts/docker/ksql-run-demo.sh`
-- `Install-scripts/docker/ksql-demo.sql`
+- `ksql/ksql-up.sh`
+- `ksql/ksql-cli.sh`
+- `ksql/ksql-run-demo.sh`
+- `ksql/ksql-demo.sql`
 
-Podman helpers:
-
-- `Install-scripts/podman/ksql-up.sh`
-- `Install-scripts/podman/ksql-cli.sh`
-- `Install-scripts/podman/ksql-run-demo.sh`
-- `Install-scripts/podman/ksql-demo.sql`
+These scripts auto-detect Podman first, then Docker. To force a specific runtime, set `CONTAINER_RUNTIME=docker` or `CONTAINER_RUNTIME=podman`.
 
 ## Step 1: Start the Local ksqlDB Stack
 
-With Docker:
-
 ```bash
-./Install-scripts/docker/ksql-up.sh
-```
-
-With Podman:
-
-```bash
-./Install-scripts/podman/ksql-up.sh
+./ksql/ksql-up.sh
 ```
 
 This starts Kafka, Schema Registry, Connect, ksqlDB Server, ksqlDB CLI, and Control Center.
@@ -60,16 +47,8 @@ Send a few records:
 
 ## Step 3: Run the Demo SQL
 
-With Docker:
-
 ```bash
-./Install-scripts/docker/ksql-run-demo.sh
-```
-
-With Podman:
-
-```bash
-./Install-scripts/podman/ksql-run-demo.sh
+./ksql/ksql-run-demo.sh
 ```
 
 The demo script:
@@ -80,16 +59,8 @@ The demo script:
 
 ## Step 4: Open the Interactive CLI
 
-With Docker:
-
 ```bash
-./Install-scripts/docker/ksql-cli.sh
-```
-
-With Podman:
-
-```bash
-./Install-scripts/podman/ksql-cli.sh
+./ksql/ksql-cli.sh
 ```
 
 Once inside the CLI, useful commands include:
