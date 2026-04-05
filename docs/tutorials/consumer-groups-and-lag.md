@@ -211,4 +211,4 @@ Control Center is useful for visual lag inspection in local and self-managed Con
 
 ## Next Step
 
-Proceed to `schema-registry.md` when you want to add governed schemas on top of well-designed consumer flows and topic patterns.
+Proceed to `kafka-security.md` when you want to secure brokers, clients, listeners, and authorization before layering on more platform services.

@@ -6,6 +6,7 @@ This folder contains runnable or copy-ready assets that support the tutorials an
 
 - `connectors/` - connector configuration templates grouped into `source/` and `destinations/`
 - `ksql/` - ksqlDB helper scripts and demo SQL
+- `security/` - local security configuration examples for Kafka listeners, clients, and ACLs
 - `schema-registry/` - Schema Registry helper scripts for listing subjects and registering sample schemas
 
 ## How To Use This Folder
