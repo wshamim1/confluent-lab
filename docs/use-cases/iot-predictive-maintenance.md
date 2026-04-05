@@ -31,6 +31,23 @@ Core topics:
 4. Alert rules generate events when readings exceed thresholds or patterns show degradation.
 5. Sink connectors push alerts to maintenance systems and data lakes.
 
+```mermaid
+flowchart LR
+	A[Sensors / PLCs] --> B[MQTT / Edge Gateway]
+	B -->|telemetry.raw| K[(Kafka Topics)]
+	C[Asset Master Data] -->|CDC / JDBC| K
+	K --> D[Normalization Service]
+	D -->|telemetry.normalized| K
+	K --> E[ksqlDB / Stream Processing]
+	E -->|maintenance.alerts| K
+	K --> F[Maintenance System]
+	K --> G[Data Lake]
+	H[Schema Registry] -.contracts.-> D
+	I[Kafka Connect] -.ingest.-> B
+	I -.export.-> F
+	I -.export.-> G
+```
+
 ## Topic Design
 
 - key by `device_id` or `asset_id`

@@ -31,6 +31,24 @@ Core topics:
 4. Fraud decision topic publishes `approve`, `review`, or `block`.
 5. Payment orchestration consumes the decision and completes workflow routing.
 
+```mermaid
+flowchart LR
+	A[Payment Gateway] -->|authorization request| K[(Kafka Topics)]
+	B[Login Events] -->|customer.login-events| K
+	C[Device Signals] -->|device.risk-signals| K
+	D[External Fraud Intel] -->|connector ingest| K
+	K --> E[Fraud Scoring Service]
+	E -->|fraud.decisions| K
+	K --> F[Payment Orchestration]
+	K --> G[Fraud Analyst Dashboard]
+	K --> H[Warehouse / Model Training]
+	I[Schema Registry] -.contracts.-> A
+	I -.contracts.-> E
+	J[Kafka Connect] -.ingest/export.-> D
+	J -.export.-> G
+	J -.export.-> H
+```
+
 ## Topic Design
 
 - key payment events by `payment_id`

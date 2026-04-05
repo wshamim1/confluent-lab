@@ -31,6 +31,23 @@ Core topics:
 4. A curated profile topic emits updates consumed by analytics, support, and marketing.
 5. Sink connectors write the curated profile to warehouses and search systems.
 
+```mermaid
+flowchart LR
+	A[CRM Database] -->|CDC| K[(Kafka Topics)]
+	B[Billing Database] -->|CDC| K
+	C[Support Platform] -->|tickets| K
+	D[Product Events] -->|usage-events| K
+	K --> E[Identity Resolution]
+	E -->|customer360.profile-updates| K
+	K --> F[Support Portal]
+	K --> G[Marketing Activation]
+	K --> H[Warehouse / BI]
+	I[Schema Registry] -.contracts.-> E
+	J[Kafka Connect] -.ingest.-> A
+	J -.ingest.-> B
+	J -.export.-> H
+```
+
 ## Topic Design
 
 - use a durable canonical key such as `customer_id`

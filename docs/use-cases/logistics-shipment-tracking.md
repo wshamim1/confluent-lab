@@ -32,6 +32,21 @@ Core topics:
 4. Customer-facing applications consume curated shipment status topics.
 5. Data lake sinks capture historical movement for optimization analysis.
 
+```mermaid
+flowchart LR
+	A[Warehouse System] -->|picked / packed| K[(Kafka Topics)]
+	B[Carrier APIs] -->|in-transit / delivered| K
+	C[Scanner Events] -->|exceptions / scans| K
+	K --> D[Normalization Service]
+	D -->|shipment status topics| K
+	K --> E[Customer Tracking Portal]
+	K --> F[Support Operations]
+	K --> G[Optimization Analytics]
+	H[Schema Registry] -.contracts.-> D
+	I[Kafka Connect] -.ingest.-> B
+	I -.export.-> G
+```
+
 ## Topic Design
 
 - key by `shipment_id`

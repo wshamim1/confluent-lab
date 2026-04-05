@@ -32,6 +32,24 @@ Each service publishes facts about state changes instead of directly coordinatin
 4. Fulfillment system consumes enriched order state and starts picking and packing.
 5. Sink connectors push final order events to analytics, CRM, or support systems.
 
+```mermaid
+flowchart LR
+	A[Storefront] -->|orders.created| B[(Kafka Topics)]
+	B --> C[Payment Service]
+	C -->|payments.authorized| B
+	B --> D[Inventory Service]
+	D -->|inventory.reserved| B
+	B --> E[Fulfillment Service]
+	E -->|shipments.dispatched| B
+	B --> F[ksqlDB Views]
+	B --> G[Sink Connectors]
+	G --> H[Analytics / CRM / Support]
+	I[Schema Registry] -.contracts.-> A
+	I -.contracts.-> C
+	I -.contracts.-> D
+	I -.contracts.-> E
+```
+
 ## Topic Design
 
 - key by `order_id`
