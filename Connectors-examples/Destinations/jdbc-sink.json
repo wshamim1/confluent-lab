@@ -1,0 +1,15 @@
+{
+  "name": "jdbc-sink-orders",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "topics": "orders.created",
+    "connection.url": "jdbc:postgresql://db-host:5432/appdb",
+    "connection.user": "appuser",
+    "connection.password": "change-me",
+    "auto.create": "true",
+    "insert.mode": "upsert",
+    "pk.mode": "record_key",
+    "pk.fields": "order_id"
+  }
+}

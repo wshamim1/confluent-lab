@@ -1,0 +1,13 @@
+{
+  "name": "s3-source-orders",
+  "config": {
+    "connector.class": "io.confluent.connect.s3.source.S3SourceConnector",
+    "tasks.max": "1",
+    "s3.bucket.name": "landing-bucket",
+    "aws.access.key.id": "change-me",
+    "aws.secret.access.key": "change-me",
+    "topic.dir": "orders/",
+    "topics": "landing.orders",
+    "format.class": "io.confluent.connect.s3.format.json.JsonFormat"
+  }
+}
