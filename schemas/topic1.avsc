@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "topic1",
+  "namespace": "com.confluent.lab",
+  "doc": "Schema for topic1 — matches the subject already registered in Schema Registry.",
+  "fields": [
+    { "name": "id",         "type": "long",   "doc": "Unique record identifier" },
+    { "name": "name",       "type": "string", "doc": "Record name" },
+    { "name": "created_at", "type": "string", "doc": "ISO-8601 creation timestamp" }
+  ]
+}

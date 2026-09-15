@@ -1,0 +1,14 @@
+{
+  "type": "record",
+  "name": "PageView",
+  "namespace": "com.confluent.lab",
+  "doc": "Web page-view clickstream event.",
+  "fields": [
+    { "name": "session_id", "type": "string", "doc": "Browser session identifier" },
+    { "name": "user_id",    "type": "string", "doc": "Authenticated user id, or 'anonymous'" },
+    { "name": "page",       "type": "string", "doc": "URL path of the viewed page" },
+    { "name": "referrer",   "type": "string", "doc": "Referring URL, or empty string" },
+    { "name": "duration_ms","type": "long",   "doc": "Time spent on the page in milliseconds" },
+    { "name": "viewed_at",  "type": "string", "doc": "ISO-8601 event timestamp" }
+  ]
+}

@@ -1,0 +1,18 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: Connector
+metadata:
+  name: datagen-pageviews
+  namespace: confluent
+spec:
+  class: "io.confluent.kafka.connect.datagen.DatagenConnector"
+  taskMax: 1
+  connectClusterRef:
+    name: connect-datagen
+  configs:
+    kafka.topic: "pageviews"
+    quickstart: "pageviews"
+    key.converter: "org.apache.kafka.connect.storage.StringConverter"
+    value.converter: "io.confluent.connect.avro.AvroConverter"
+    value.converter.schema.registry.url: "http://schemaregistry.confluent.svc.cluster.local:8081"
+    max.interval: "1000"
+    iterations: "10000000"

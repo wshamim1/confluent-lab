@@ -1,0 +1,18 @@
+confluent-kafka[avro]
+python-dotenv
+requests
+mysql-connector-python
+fastavro
+httpx
+
+# Predictive maintenance pipeline
+streamlit>=1.35.0
+pandas>=2.2.0
+mcp>=1.0.0
+
+# Local Flink pipeline (flink/)
+kafka-python>=2.0.0
+psycopg2-binary>=2.9.0
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+plotly>=5.20.0

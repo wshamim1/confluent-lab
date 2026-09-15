@@ -1,0 +1,13 @@
+{
+  "type": "record",
+  "name": "User",
+  "namespace": "com.confluent.lab",
+  "doc": "User profile event.",
+  "fields": [
+    { "name": "user_id",    "type": "string", "doc": "Unique user identifier (UUID)" },
+    { "name": "username",   "type": "string", "doc": "Login username" },
+    { "name": "email",      "type": "string", "doc": "User email address" },
+    { "name": "region",     "type": "string", "doc": "Geographic region, e.g. us-east-1" },
+    { "name": "registered_at", "type": "string", "doc": "ISO-8601 registration timestamp" }
+  ]
+}

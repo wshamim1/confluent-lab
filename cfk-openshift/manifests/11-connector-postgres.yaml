@@ -1,0 +1,22 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: Connector
+metadata:
+  name: postgres-source-customers
+  namespace: confluent
+spec:
+  class: "io.confluent.connect.jdbc.JdbcSourceConnector"
+  taskMax: 1
+  connectClusterRef:
+    name: connect-pg
+  configs:
+    connection.url: "jdbc:postgresql://postgres.confluent.svc.cluster.local:5432/inventory"
+    connection.user: "pguser"
+    connection.password: "pgpass123"
+    mode: "incrementing"
+    incrementing.column.name: "id"
+    table.whitelist: "customers"
+    topic.prefix: "pg-"
+    poll.interval.ms: "1000"
+    key.converter: "org.apache.kafka.connect.storage.StringConverter"
+    value.converter: "org.apache.kafka.connect.json.JsonConverter"
+    value.converter.schemas.enable: "false"

@@ -1,0 +1,33 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: Connect
+metadata:
+  name: connect-s3
+  namespace: confluent
+spec:
+  replicas: 1
+  image:
+    application: confluentinc/cp-server-connect:7.9.0
+    init: confluentinc/confluent-init-container:2.11.0
+  dependencies:
+    kafka:
+      bootstrapEndpoint: kafka:9071
+  build:
+    type: onDemand
+    onDemand:
+      plugins:
+        locationType: confluentHub
+        confluentHub:
+        - name: kafka-connect-s3
+          owner: confluentinc
+          version: 10.5.18
+        - name: kafka-connect-s3-source
+          owner: confluentinc
+          version: 2.6.2
+  podTemplate:
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: "1500m"
+        memory: 2Gi

@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "Order",
+  "namespace": "com.confluent.lab",
+  "doc": "E-commerce order event.",
+  "fields": [
+    { "name": "order_id",    "type": "string", "doc": "Unique order identifier (UUID)" },
+    { "name": "customer_id", "type": "string", "doc": "Customer identifier" },
+    { "name": "item",        "type": "string", "doc": "Product name or SKU" },
+    { "name": "quantity",    "type": "int",    "doc": "Number of units ordered" },
+    { "name": "price",       "type": "double", "doc": "Unit price in USD" },
+    { "name": "status",      "type": "string", "doc": "Order status: NEW, PROCESSING, SHIPPED, DELIVERED, CANCELLED" },
+    { "name": "created_at",  "type": "string", "doc": "ISO-8601 order creation timestamp" }
+  ]
+}

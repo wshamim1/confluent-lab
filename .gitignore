@@ -1,0 +1,49 @@
+# ── Credentials / secrets ────────────────────────────────────────────────────
+.env
+client.properties
+ccloud-python-client/client.properties
+
+# ── Python virtual environments ───────────────────────────────────────────────
+.venv/
+venv/
+env/
+.Python
+
+# ── Python build / cache artefacts ───────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+.eggs/
+
+# ── pip / packaging ──────────────────────────────────────────────────────────
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ── Confluent CLI binary ──────────────────────────────────────────────────────
+bin/
+
+# ── macOS filesystem noise ────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── Editor / IDE ──────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+
+.bob/
+
+cflt-vsi-key.pem
+
+kafka-ca.crt
+*.jar
