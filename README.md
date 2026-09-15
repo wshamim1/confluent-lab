@@ -1,6 +1,6 @@
 # confluent-lab
 
-A hands-on Python + Streamlit lab for working with both **Confluent Cloud** and an **on-prem Confluent Platform VM**. Includes utility scripts to inspect clusters, manage topics, produce/consume messages, and run ksqlDB queries — plus two full **streaming use-case demos** with live dashboards and MCP agent chat.
+A hands-on Python + Streamlit lab for working with both **Confluent Cloud** and an **on-prem Confluent Platform VM**. Includes utility scripts to inspect clusters, manage topics, produce/consume messages, and run ksqlDB queries — plus three full **streaming use-case demos** with live dashboards and MCP agent chat.
 
 ---
 
@@ -9,6 +9,7 @@ A hands-on Python + Streamlit lab for working with both **Confluent Cloud** and 
 1. [Use Cases](#use-cases)
    - [Predictive Maintenance](#-predictive-maintenance)
    - [Real-Time Transit](#-real-time-transit)
+   - [Retail Order Lifecycle](#-retail-order-lifecycle)
 2. [Project Layout](#project-layout)
 3. [Prerequisites](#prerequisites)
 4. [Setup](#setup)
@@ -144,6 +145,51 @@ Use the **Inject Delay** button in the dashboard sidebar, or ask the MCP agent:
 
 ---
 
+### 🛒 Retail Order Lifecycle
+
+> **On-prem Confluent Platform · Avro + Schema Registry · customer segmentation · MCP agent chat**
+
+```
+producer.py
+20 customers × 15 products  ──►  retail-orders   (Kafka, Avro)
+(vip / premium / regular)   ──►  retail-returns  (Kafka, Avro)
+                             ──►  retail-browse   (Kafka, Avro)
+                                        │
+                               Streamlit dashboard
+                               dashboard/app.py
+                               • live order feed & KPI strip
+                               • segment breakdown charts
+                               • return-rate analysis
+                               pages/analytics.py  (Flink SQL charts)
+                               pages/chat.py       (MCP agent chat)
+                                        │
+                               MCP Server
+                               • retail_read_orders
+                               • retail_get_customer_summary
+                               • retail_get_inactive_customers
+                               • retail_get_top_products
+```
+
+#### Quick start
+
+```bash
+# 1. Start the retail event producer
+KAFKA_ENV=onprem python3 usecases/retail/producer.py
+
+# 2. Launch the dashboard  (port 8503)
+bash usecases/retail/run.sh
+```
+
+#### Topics used
+
+| Topic | Content |
+|---|---|
+| `retail-orders` | Purchase events (completed / pending / cancelled), customer segment, product, amount |
+| `retail-returns` | Return/refund events with reason code |
+| `retail-browse` | Page-view and add-to-cart events |
+
+---
+
 ## Project Layout
 
 ```
@@ -167,21 +213,33 @@ confluent-lab/
 │   │   │       └── chat.py                     # MCP agent chat (13 tools)
 │   │   ├── mcp_server/
 │   │   │   └── server.py                       # MCP server — 13 tools
-│   │   ├── agent/
-│   │   │   ├── maintenance_agent.py            # Streaming agent: alerts → work orders
-│   │   │   └── webhook_receiver.py             # HTTP webhook receiver (HTTP Sink → agent)
+│   │   └── agent/
+│   │       ├── maintenance_agent.py            # Streaming agent: alerts → work orders
+│   │       └── webhook_receiver.py             # HTTP webhook receiver (HTTP Sink → agent)
 │   │
-│   └── transit/
-│       ├── run.sh                              # Launch dashboard on port 8502
-│       ├── producer.py                         # 12-route event simulator (flights/trains/buses)
-│       ├── topics.py                           # Topic constants and status palettes
+│   ├── transit/
+│   │   ├── run.sh                              # Launch dashboard on port 8502
+│   │   ├── producer.py                         # 12-route event simulator (flights/trains/buses)
+│   │   ├── topics.py                           # Topic constants and status palettes
+│   │   ├── dashboard/
+│   │   │   ├── app.py                          # Departure board, KPI strip, scheduler
+│   │   │   └── pages/
+│   │   │       ├── analytics.py                # Delay analytics + Flink SQL + query log
+│   │   │       └── chat.py                     # Transit MCP agent chat (6 tools)
+│   │   └── mcp_server/
+│   │       └── server.py                       # MCP server — 6 transit tools
+│   │
+│   └── retail/
+│       ├── run.sh                              # Launch dashboard on port 8503
+│       ├── producer.py                         # 20-customer × 15-product order simulator
+│       ├── topics.py                           # Topic constants (orders, returns, browse)
 │       ├── dashboard/
-│       │   ├── app.py                          # Departure board, KPI strip, scheduler
+│       │   ├── app.py                          # Live order feed, KPI strip, segment charts
 │       │   └── pages/
-│       │       ├── analytics.py                # Delay analytics + Flink SQL + query log
-│       │       └── chat.py                     # Transit MCP agent chat (6 tools)
+│       │       ├── analytics.py                # Flink SQL retail analytics + query log
+│       │       └── chat.py                     # Retail MCP agent chat
 │       └── mcp_server/
-│           └── server.py                       # MCP server — 6 transit tools
+│           └── server.py                       # MCP server — retail tools
 │
 ├── scripts/
 │   ├── kafka/
@@ -202,7 +260,8 @@ confluent-lab/
 │   │   ├── explore.py              # Interactive REST explorer (SR, ksqlDB, Connect, CMF)
 │   │   ├── health_check.py         # Ping every component — UP/DOWN/latency
 │   │   ├── ksql_query.py           # Run ksqlDB statements from the CLI
-│   │   └── register_schema.py      # Register an AVRO schema in Schema Registry
+│   │   ├── register_schema.py      # Register a single Avro schema in Schema Registry
+│   │   └── register_all_schemas.py # Bulk-register all schemas from schemas/ directory
 │   │
 │   ├── connectors/
 │   │   └── manage_connectors.py    # List, pause, resume, restart, delete connectors
@@ -218,13 +277,54 @@ confluent-lab/
 │       ├── cleanup.sh
 │       └── lib/                    # ex1_explore.sh … ex8_control_center.sh
 │
+├── schemas/                        # Avro schema files (.avsc) for topics
+│   ├── orders.avsc
+│   ├── pageviews.avsc
+│   ├── users.avsc
+│   └── topic1.avsc
+│
+├── examples/                       # Ready-to-use config and script examples
+│   ├── connectors/
+│   │   ├── Source/                 # JDBC, Debezium, S3 source connector JSON configs
+│   │   └── Destinations/           # JDBC sink, S3 sink, Elasticsearch sink JSON configs
+│   ├── ksql/                       # ksqlDB demo SQL and shell scripts
+│   ├── schema-registry/            # Schema Registry REST shell scripts
+│   └── security/
+│       └── local-sasl-ssl/         # Local SASL_SSL broker + client config + cert generation
+│
+├── docs/                           # Reference documentation
+│   ├── architecture.md
+│   ├── connectors/                 # Connector source and destination guides
+│   ├── install/                    # Installation options (OpenShift, Podman, etc.)
+│   ├── tutorials/                  # Step-by-step tutorial docs
+│   └── use-cases/                  # Use case deep-dives
+│
+├── tutorials/                      # Numbered tutorial series
+│   ├── 01-dsp-introduction.md
+│   ├── 02-kora-engine.md
+│   ├── 03-flink-cep.md
+│   └── 04-cfk-kubernetes.md
+│
+├── troubleshooting/                # Issue-specific debugging guides
+│   └── flink-sr-auth-and-avro-wire-format.md
+│
+├── flink/                          # Standalone local Flink stack (Docker Compose)
+│   ├── docker-compose.yml
+│   ├── Dockerfile
+│   ├── run.sh
+│   ├── producer/                   # Local sensor event producer
+│   ├── jobs/                       # Flink SQL and PyFlink job definitions
+│   ├── sql/                        # SQL init scripts
+│   ├── api/                        # FastAPI metrics endpoint
+│   └── dashboard/                  # Streamlit dashboard for local Flink
+│
+├── cfk-openshift/                  # Confluent for Kubernetes on OpenShift lab
+│   ├── manifests/                  # CRD YAML files (01–14, all components)
+│   ├── scripts/                    # Step-by-step deployment and test scripts
+│   └── mcp_server/                 # MCP server for CFK cluster introspection
+│
 ├── .bob/
 │   └── mcp.json                    # Bob MCP server registrations
-│
-├── ccloud-python-client/           # Standalone produce/consume example
-│   ├── client.py
-│   ├── client.properties           # create locally (not committed)
-│   └── requirements.txt
 │
 ├── cli/
 │   ├── install.sh                  # Download the Confluent CLI (macOS)
@@ -567,6 +667,17 @@ KAFKA_ENV=onprem python3 scripts/platform/register_schema.py --topic sensor-read
 
 ---
 
+### `register_all_schemas.py` — bulk schema registration
+
+Registers all `.avsc` files from the `schemas/` directory into Schema Registry in one pass.
+
+```bash
+KAFKA_ENV=onprem python3 scripts/platform/register_all_schemas.py
+KAFKA_ENV=onprem python3 scripts/platform/register_all_schemas.py --dry-run
+```
+
+---
+
 ### `setup-datagen.sh` — sample data generator
 
 Deploys a kafka-connect-datagen connector on the VM (~1 AVRO record/sec).
@@ -644,7 +755,7 @@ Automates the **Confluent Level 4: External Client Access to Confluent Platform 
 
 ### Usage
 
-Run **from the TechZone VM** (the machine with `kubectl` access):
+Run from the machine with `kubectl` access configured against the cluster:
 
 ```bash
 cd /path/to/confluent-lab
@@ -675,20 +786,6 @@ NAMESPACE=my-ns TOPIC=my-test ./scripts/cfk-external-access/run_lab.sh
 ./scripts/cfk-external-access/cleanup.sh --dry-run
 ./scripts/cfk-external-access/cleanup.sh --keep-workdir
 ```
-
----
-
-## `ccloud-python-client/` — Standalone Client Example
-
-```bash
-cd ccloud-python-client
-python3 -m venv env && source env/bin/activate
-pip install -r requirements.txt
-python client.py
-python client.py --key mykey --value myvalue
-```
-
-Reads from `ccloud-python-client/client.properties` instead of environment variables — useful as a self-contained Confluent Cloud example.
 
 ---
 
