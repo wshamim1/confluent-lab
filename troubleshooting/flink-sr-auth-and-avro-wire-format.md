@@ -1,6 +1,6 @@
 # Troubleshooting: Flink + Schema Registry Auth & Avro Wire Format
 
-> **Environment:** On-prem Confluent Platform (IBM Cloud VSI)  
+> **Environment:** On-prem Confluent Platform (VM)  
 > **Components:** CMF / Apache Flink, Schema Registry, Kafka, Python producer  
 > **Symptoms fixed:** `Cannot retrieve table flink-database.<topic>` and `SELECT *` stuck in `PENDING` / `RESTARTING`
 
@@ -37,13 +37,13 @@ Error details: SQL validation failed. Cannot retrieve table flink-database.retai
 
 ### Root cause
 
-`/opt/confluent-installer/scripts/flink-catalog.json` on the VM was missing
+`/opt/confluent/scripts/flink-catalog.json` on the VM was missing
 Basic Auth credentials for Schema Registry.  The Schema Registry CRD has
 `authentication.type: basic` enforced, so every unauthenticated request returns
 `401 Unauthorized`.  Flink swallowed the 401 and reported it as a table-not-found
 validation failure.
 
-**File:** `/opt/confluent-installer/scripts/flink-catalog.json`
+**File:** `/opt/confluent/scripts/flink-catalog.json`
 
 ```json
 // BEFORE — missing auth
@@ -93,7 +93,7 @@ ssh -i cflt-vsi-key.pem root@<VM_IP> '
 
 # 3. Update the installer file so re-deployments don't regress
 ssh -i cflt-vsi-key.pem root@<VM_IP> \
-  'cp /tmp/flink-catalog-patch.json /opt/confluent-installer/scripts/flink-catalog.json'
+  'cp /tmp/flink-catalog-patch.json /opt/confluent/scripts/flink-catalog.json'
 ```
 
 ### Verify fix
@@ -271,5 +271,5 @@ KAFKA_ENV=onprem .venv/bin/python usecases/retail/producer.py --burst 50
 
 | File | Change |
 |---|---|
-| `/opt/confluent-installer/scripts/flink-catalog.json` (VM) | Added `basic.auth.credentials.source` and `basic.auth.user.info` to `srInstance.connectionConfig` |
+| `/opt/confluent/scripts/flink-catalog.json` (VM) | Added `basic.auth.credentials.source` and `basic.auth.user.info` to `srInstance.connectionConfig` |
 | `usecases/retail/producer.py` | Replaced `json.dumps().encode()` with `AvroSerializer` + Confluent wire format |

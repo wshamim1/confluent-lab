@@ -320,7 +320,7 @@ MYSQL_ROOT_PASSWORD=rootpass
 Required once for native Kafka connections to the VM brokers:
 
 ```bash
-scp -i cflt-vsi-key.pem root@<YOUR_VM_IP>:/var/lib/confluent-access/kafka-ca.crt ./kafka-ca.crt
+scp -i cflt-vsi-key.pem root@<YOUR_VM_IP>:/var/lib/confluent/kafka-ca.crt ./kafka-ca.crt
 ```
 
 ---

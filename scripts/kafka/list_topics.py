@@ -53,7 +53,7 @@ def list_onprem_topics():
             print("No topics found (broker reachable, but no user topics exist yet).")
             print("Tip: deploy a datagen connector to create one:")
             print("  ssh -i cflt-vsi-key.pem root@<YOUR_VM_IP> "
-                  "'bash /opt/confluent-installer/scripts/deploy-datagen-connector.sh users'")
+                  "'bash /opt/confluent/scripts/deploy-datagen-connector.sh users'")
         else:
             print(f"Found {len(topics)} topic(s):")
             for topic in topics:

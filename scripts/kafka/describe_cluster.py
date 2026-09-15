@@ -192,7 +192,7 @@ def _onprem_describe() -> None:
     # Install path is well-known for Confluent Platform packages
     install_path = "/opt/confluent"
     _kv("Confluent install path",    install_path)
-    _kv("Kafka CA cert (on VM)",     "/var/lib/confluent-access/kafka-ca.crt")
+    _kv("Kafka CA cert (on VM)",     "/var/lib/confluent/kafka-ca.crt")
 
     # ── 4. Service endpoints ───────────────────────────────────────────────────
     _section("On-prem — Service endpoints")

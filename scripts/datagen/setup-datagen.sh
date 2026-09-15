@@ -35,7 +35,7 @@ CC_URL="${CONTROL_CENTER_URL:?Missing CONTROL_CENTER_URL in .env}"
 CC_USER="${CONTROL_CENTER_USERNAME:-admin}"
 CC_PASS="${CONTROL_CENTER_PASSWORD:?Missing CONTROL_CENTER_PASSWORD in .env}"
 CONNECT_URL="${KAFKA_CONNECT_URL:?Missing KAFKA_CONNECT_URL in .env}"
-DATAGEN_SCRIPT="/opt/confluent-installer/scripts/deploy-datagen-connector.sh"
+DATAGEN_SCRIPT="/opt/confluent/scripts/deploy-datagen-connector.sh"
 
 SSH="ssh -i ${SSH_KEY} -o StrictHostKeyChecking=accept-new ${SSH_USER}@${VM_IP}"
 
