@@ -24,7 +24,7 @@ if [ -f "${ROOT_DIR}/.env" ]; then
   done < "${ROOT_DIR}/.env"
 fi
 
-OPENSHIFT_API_URL="${OPENSHIFT_API_URL:-https://api.itz-88y8vv.hub04-lb.techzone.ibm.com:6443}"
+OPENSHIFT_API_URL="${OPENSHIFT_API_URL:-https://api.<YOUR_OPENSHIFT_CLUSTER>:6443}"
 OPENSHIFT_ADMIN_USER="${OPENSHIFT_ADMIN_USER:-kubeadmin}"
 OPENSHIFT_ADMIN_PASSWORD="${OPENSHIFT_ADMIN_PASSWORD:-}"
 

@@ -115,7 +115,7 @@ def explore_cmf():
     print(f"\n── Flink SQL shell command ──")
     cc_user = os.getenv("CONTROL_CENTER_USERNAME", "admin")
     cc_pass = os.getenv("CONTROL_CENTER_PASSWORD", "")
-    vm_ip   = os.getenv("VM_FLOATING_IP", "163.66.88.209")
+    vm_ip   = os.getenv("VM_FLOATING_IP", "<YOUR_VM_IP>")
     print(f"  confluent logout")
     print(f"  confluent flink shell \\")
     print(f"    --url https://{cc_user}:{cc_pass}@{vm_ip} \\")

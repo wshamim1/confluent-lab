@@ -32,7 +32,7 @@ MYSQL_PASSWORD=kafkapass
 MYSQL_DATABASE=kafkadb
 
 # On-prem Schema Registry (already in .env if KAFKA_ENV=onprem)
-SCHEMA_REGISTRY_URL=https://163.66.88.209/sr/
+SCHEMA_REGISTRY_URL=https://<YOUR_VM_IP>/sr/
 CONTROL_CENTER_USERNAME=admin
 CONTROL_CENTER_PASSWORD=<password>
 """

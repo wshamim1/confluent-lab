@@ -46,10 +46,10 @@ CREATE TABLE IF NOT EXISTS customers (
 TRUNCATE TABLE customers;
 
 INSERT INTO customers (first_name, last_name, email, country) VALUES
-('Alice', 'Smith', 'alice@ibm.com', 'USA'),
+('Alice', 'Smith', 'alice@example.com', 'USA'),
 ('Bob', 'Jones', 'bob@confluent.io', 'Canada'),
 ('Charlie', 'Brown', 'charlie@redhat.com', 'UK'),
-('Diana', 'Prince', 'diana@techzone.ibm.com', 'Australia'),
+('Diana', 'Prince', 'diana@example.com', 'Australia'),
 ('Evan', 'Wright', 'evan@example.com', 'Germany');
 "
 

@@ -1,6 +1,6 @@
 # confluent-lab
 
-A hands-on Python + Streamlit lab for working with both **Confluent Cloud** and an **on-prem Confluent Platform VM** (IBM Cloud VSI). Includes utility scripts to inspect clusters, manage topics, produce/consume messages, and run ksqlDB queries — plus two full **streaming use-case demos** with live dashboards and MCP agent chat.
+A hands-on Python + Streamlit lab for working with both **Confluent Cloud** and an **on-prem Confluent Platform VM**. Includes utility scripts to inspect clusters, manage topics, produce/consume messages, and run ksqlDB queries — plus two full **streaming use-case demos** with live dashboards and MCP agent chat.
 
 ---
 
@@ -238,7 +238,7 @@ confluent-lab/
 ## Prerequisites
 
 - Python 3.11 or later
-- A [Confluent Cloud](https://confluent.cloud) account **and/or** access to the on-prem VM (IBM Cloud VSI at `163.66.83.214`)
+- A [Confluent Cloud](https://confluent.cloud) account **and/or** access to the on-prem VM (at `<YOUR_VM_IP>`)
 - SSH key `cflt-vsi-key.pem` in the project root (for on-prem access)
 
 ---
@@ -272,10 +272,10 @@ KAFKA_SESSION_TIMEOUT_MS=45000
 KAFKA_CLIENT_ID=confluent-lab-client
 
 # ── On-prem VM ────────────────────────────────────────────────────────────────
-VM_FLOATING_IP=163.66.83.214
+VM_FLOATING_IP=<YOUR_VM_IP>
 VM_SSH_KEY=cflt-vsi-key.pem
 VM_SSH_USER=root
-VM_BOOTSTRAP_SERVERS=163.66.83.214:9094,163.66.83.214:9095,163.66.83.214:9096
+VM_BOOTSTRAP_SERVERS=<YOUR_VM_IP>:9094,<YOUR_VM_IP>:9095,<YOUR_VM_IP>:9096
 VM_SECURITY_PROTOCOL=SASL_SSL
 VM_SASL_MECHANISMS=PLAIN
 VM_SASL_USERNAME=kafka-admin
@@ -283,14 +283,14 @@ VM_SASL_PASSWORD=<password>
 VM_KAFKA_CA_CERT=./kafka-ca.crt
 
 # ── On-prem: HTTPS endpoints (all use admin credentials) ─────────────────────
-CONTROL_CENTER_URL=https://163.66.83.214/
+CONTROL_CENTER_URL=https://<YOUR_VM_IP>/
 CONTROL_CENTER_USERNAME=admin
 CONTROL_CENTER_PASSWORD=<password>
-SCHEMA_REGISTRY_URL=https://163.66.83.214/sr/
-KSQLDB_URL=https://163.66.83.214/ksqldb/
-KAFKA_CONNECT_URL=https://163.66.83.214/connect/
-CMF_REST_URL=https://163.66.83.214/cmf/
-CMF_CLI_URL=https://163.66.83.214
+SCHEMA_REGISTRY_URL=https://<YOUR_VM_IP>/sr/
+KSQLDB_URL=https://<YOUR_VM_IP>/ksqldb/
+KAFKA_CONNECT_URL=https://<YOUR_VM_IP>/connect/
+CMF_REST_URL=https://<YOUR_VM_IP>/cmf/
+CMF_CLI_URL=https://<YOUR_VM_IP>
 
 # ── On-prem: Flink (pre-provisioned) ─────────────────────────────────────────
 FLINK_ENVIRONMENT=flink-env
@@ -320,7 +320,7 @@ MYSQL_ROOT_PASSWORD=rootpass
 Required once for native Kafka connections to the VM brokers:
 
 ```bash
-scp -i cflt-vsi-key.pem root@163.66.83.214:/var/lib/confluent-access/kafka-ca.crt ./kafka-ca.crt
+scp -i cflt-vsi-key.pem root@<YOUR_VM_IP>:/var/lib/confluent-access/kafka-ca.crt ./kafka-ca.crt
 ```
 
 ---
@@ -332,7 +332,7 @@ All Python scripts read `KAFKA_ENV` from `.env` (or the shell) and route automat
 | `KAFKA_ENV` | Connects to | Auth |
 |---|---|---|
 | `cloud` | Confluent Cloud bootstrap server | API key + secret (SASL_SSL) |
-| `onprem` | VM brokers `163.66.83.214:9094-9096` | `kafka-admin` SASL_SSL + CA cert |
+| `onprem` | VM brokers `<YOUR_VM_IP>:9094-9096` | `kafka-admin` SASL_SSL + CA cert |
 
 ```bash
 # Target Confluent Cloud
@@ -473,12 +473,12 @@ KAFKA_ENV=onprem python3 scripts/platform/health_check.py --json
 ```
   COMPONENT               STATUS    LATENCY  TARGET / DETAIL
   ──────────────────────  ──────  ─────────  ─────────────────────────────
-  Kafka brokers           UP         142 ms  163.66.83.214:9094,...
-  Control Center          UP          38 ms  https://163.66.83.214
-  Schema Registry         UP          22 ms  https://163.66.83.214/sr
-  ksqlDB                  UP          19 ms  https://163.66.83.214/ksqldb
-  Kafka Connect           UP          21 ms  https://163.66.83.214/connect
-  CMF REST                UP          24 ms  https://163.66.83.214/cmf
+  Kafka brokers           UP         142 ms  <YOUR_VM_IP>:9094,...
+  Control Center          UP          38 ms  https://<YOUR_VM_IP>
+  Schema Registry         UP          22 ms  https://<YOUR_VM_IP>/sr
+  ksqlDB                  UP          19 ms  https://<YOUR_VM_IP>/ksqldb
+  Kafka Connect           UP          21 ms  https://<YOUR_VM_IP>/connect
+  CMF REST                UP          24 ms  https://<YOUR_VM_IP>/cmf
 
   Summary: 6/6 UP
 ```
@@ -590,7 +590,7 @@ Open an interactive Flink SQL session directly from your laptop:
 confluent logout   # required if signed in to Confluent Cloud
 
 confluent flink shell \
-  --url https://admin:<password>@163.66.83.214 \
+  --url https://admin:<password>@<YOUR_VM_IP> \
   --environment flink-env \
   --compute-pool flink-compute-pool \
   --catalog flink-catalog \
@@ -618,12 +618,12 @@ SELECT machine_id, COUNT(*) AS events
 
 | Component | URL | Auth |
 |---|---|---|
-| Control Center (web UI) | `https://163.66.83.214/` | Basic (`admin` / password) |
-| Schema Registry | `https://163.66.83.214/sr/` | Basic |
-| ksqlDB REST | `https://163.66.83.214/ksqldb/` | Basic |
-| Kafka Connect | `https://163.66.83.214/connect/` | Basic |
-| CMF REST | `https://163.66.83.214/cmf/` | Basic |
-| Kafka brokers | `163.66.83.214:9094,9095,9096` | SASL_SSL / `kafka-admin` |
+| Control Center (web UI) | `https://<YOUR_VM_IP>/` | Basic (`admin` / password) |
+| Schema Registry | `https://<YOUR_VM_IP>/sr/` | Basic |
+| ksqlDB REST | `https://<YOUR_VM_IP>/ksqldb/` | Basic |
+| Kafka Connect | `https://<YOUR_VM_IP>/connect/` | Basic |
+| CMF REST | `https://<YOUR_VM_IP>/cmf/` | Basic |
+| Kafka brokers | `<YOUR_VM_IP>:9094,9095,9096` | SASL_SSL / `kafka-admin` |
 
 ---
 
